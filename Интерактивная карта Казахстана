@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Интерактивная карта Казахстана</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+    <style>
+        #map {
+            height: 800px;
+        }
+    </style>
+</head>
+<body>
+    <div id="map"></div>
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+    <script>
+        // Инициализация карты
+        var map = L.map('map').setView([48.0196, 66.9237], 5);
+
+        // Добавление фоновой карты (OpenStreetMap)
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            maxZoom: 19,
+        }).addTo(map);
+
+        // Массив с информацией о точках
+        var markers = [
+            {
+                name: "Акмолинская область",
+                percentage: 36.27,
+                amount: 74487,
+                latlng: [51.1708, 71.4491]
+            },
+            {
+                name: "Западно-Казахстанская область",
+                percentage: 5.64,
+                amount: 687107,
+                latlng: [51.1558, 51.4550]
+            },
+            {
+                name: "Атырауская область",
+                percentage: 1.15,
+                amount: 776937,
+                latlng: [47.1216, 51.9354]
+            },
+            {
+                name: "Актюбинская область",
+                percentage: 6.27,
+                amount: 674439,
+                latlng: [50.2778, 57.2075]
+            },
+            {
+                name: "Костанайская область",
+                percentage: 6.96,
+                amount: 660712,
+                latlng: [53.2145, 63.6302]
+            },
+            {
+                name: "Северо-Казахстанская область",
+                percentage: 18.1,
+                amount: 437821,
+                latlng: [53.3701, 69.5762]
+            },
+            {
+                name: "Мангистауская область",
+                percentage: 0.11,
+                amount: 797650,
+                latlng: [44.5316, 50.5536]
+            },
+            {
+                name: "Павлодарская область",
+                percentage: 17.15,
+                amount: 456852,
+                latlng: [52.2787, 76.9407]
+            }
+        ];
+
+        // Добавление меток на карту с всплывающими окнами
+        markers.forEach(function(marker) {
+            var popupContent = "<b>" + marker.name + "</b><br>Процент растительного покрова: " + marker.percentage + "%<br>Деньги: $" + marker.amount;
+
+            L.marker(marker.latlng).addTo(map)
+                .bindPopup(popupContent).on('mouseover', function (e) {
+                    this.openPopup();
+                }).on('mouseout', function (e) {
+                    this.closePopup();
+                });
+        });
+    </script>
+</body>
+</html>
